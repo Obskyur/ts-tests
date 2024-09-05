@@ -153,6 +153,34 @@ const sumAll = (a: number, b: number, c: number = 2): number => a + b + c;
 // logMsg(addAll(2, 3)); // 5
 // logMsg(sumAll(2, 3)); // 7
 
+// Rest Parameters:
+const total = (...nums: number[]): number => nums.reduce((acc, curr) => acc + curr);  // (...nums: number[]) => number
+
+// logMsg(total(1, 2, 3, 4, 5)); // 15
+
+// The Never Type:
+const throwError = (message: string): never => {
+  throw new Error(message);
+};  // (message: string) => never
+
+// const infinite = () => {
+//   let i: number = 1;
+//   while (true) {
+//     i++;
+//   }
+// };  // () => never
+
+const isNumber = (value: any): boolean => {
+  return typeof value === 'number'
+    ? true : false;
+}
+
+const numberOrString = (value: number | string): string => {
+  if (typeof value === 'string') return 'string'; // Type Guard
+  if (isNumber(value)) return 'number'; // Type Guard with custom function
+  return throwError('This should never happen!'); // never type req'd here or else error: 'Function lacks ending return statement and return type does not include 'undefined'.'
+}
+
 /*═══════╕
  │ ENUMS │
  ╘═══════*/
