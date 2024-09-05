@@ -210,3 +210,34 @@ let id: userId = 42;
 let userName: 'Tristan' | 'John' | 'Jim';
 userName = 'Jim'; // VALID
 // userName = 'Rachel' // Error: Type '"Rachel"' is not assignable to type '"Tristan" | "John" | "Jim"'.
+
+type One = string;
+type Two = string | number;
+type Three = 'hello';
+
+// convert to more or less specific
+let a: One = 'hello'; // VALID
+let b = a as Two; // less specific
+let c = a as Three; // more specific
+
+let d = <One>'world';
+let e = <string | number>'world';
+
+const addOrConcat = (a: number, b: number, c: 'add' | 'concat'): number | string => {
+  if (c === 'add') return a + b;
+  return '' + a + b;
+}
+
+// Assertions:
+// let myVal: string = addOrConcat(2, 2, 'concat'); // INVALID: Type 'number' is not assignable to type 'string'.
+let myVal: string = addOrConcat(2, 2, 'concat') as string; // VALID
+let nextVal: number = addOrConcat(2, 2, 'concat') as number; // TS sees no problem, but a string is returned
+(10 as unknown) as string; // VALID double-casting / forced assertion
+
+// The DOM:
+const img = document.querySelector('img')!;
+const myImg = document.getElementById('#img') as HTMLImageElement; // '!' is non-null assertion operator
+
+img.src; // Without '!', TS will give error: 'myImg' may be null, but with '!', TS knows it's not null.
+myImg.src; // Without assertion, TS will give error: 'img' may be null.
+

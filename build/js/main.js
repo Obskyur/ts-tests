@@ -151,4 +151,24 @@ let id = 42;
 // Literal Types
 let userName;
 userName = 'Jim'; // VALID
-// userName = 'Rachel' // Error: Type '"Rachel"' is not assignable to type '"Tristan" | "John" | "Jim"'.
+// convert to more or less specific
+let a = 'hello'; // VALID
+let b = a; // less specific
+let c = a; // more specific
+let d = 'world';
+let e = 'world';
+const addOrConcat = (a, b, c) => {
+    if (c === 'add')
+        return a + b;
+    return '' + a + b;
+};
+// Assertions:
+// let myVal: string = addOrConcat(2, 2, 'concat'); // INVALID: Type 'number' is not assignable to type 'string'.
+let myVal = addOrConcat(2, 2, 'concat'); // VALID
+let nextVal = addOrConcat(2, 2, 'concat'); // TS sees no problem, but a string is returned
+10; // VALID double-casting / forced assertion
+// The DOM:
+const img = document.querySelector('img');
+const myImg = document.getElementById('#img'); // '!' is non-null assertion operator
+img.src; // Without '!', TS will give error: 'myImg' may be null, but with '!', TS knows it's not null.
+myImg.src; // Without assertion, TS will give error: 'img' may be null.
